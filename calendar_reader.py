@@ -1,4 +1,4 @@
-# AppDaemon version
+# AppDaemon version testing
 FILE_NAME = 'calendar_reader'
 
 if __name__ == FILE_NAME: 
