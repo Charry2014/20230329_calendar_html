@@ -1,0 +1,15 @@
+venv/
+venv_OLD/
+
+__pycache__/
+.DS_Store
+.vscode/
+
+log/
+bin/
+
+calendarapitest.py
+my_secrets.py
+token.json
+credentials.json
+index.html
