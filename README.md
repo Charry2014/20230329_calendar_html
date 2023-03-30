@@ -2,16 +2,17 @@
 
 ## Introduction
 
-The aim of this project is to provide a simpler view of the upcoming entries in a Google Calendar and have these display in HomeAssistant dashboard, or whereever you want them.
+The aim of this project is to provide a simpler view of the upcoming entries in a Google Calendar and have these display in HomeAssistant dashboard, or where-ever you want them. This script pulls the next 10 calendar entries, generates a simple HTML file from them and then this can be displayed where-ever needed.
 
 ## Credits
 
-The code to read the calendar is taken from Google's sample code, modified a bit.
+The code to read the calendar is taken from Google's [developer sample code](https://developers.google.com/calendar/api/quickstart/python), modified a bit.
 
-##
-Open items
+## Open items
 * A lot of clean up and error handling
-
+* Nicer installation - this is a bit hacky
+* Perhaps an AppDaemon Dashboard would be prettier than the static HTML generated below
+* The HTML could be a lot prettier anyway
 
 # Configuration & Installation
 
@@ -34,6 +35,7 @@ calendar_reader:
 * Edit `my_secrets.py` to contain the correct CALENDAR_ID. See `fake_secrets.py` for a template what this should look like.
 * Create a folder `/config/www/calendar`
 * At this point the AppDaeomon script should run - monitor this in [AppDaemon's console](http://localhost:5050/aui/index.html#/state?tab=apps)
+* AppDaemon triggers the script automatically if it is changed - so trigger this by making a minor edit and saving the file
 
 ## HomeAssistant Configuration
 * In HomeAssistant dashboard add a Web Page card and add the following code
