@@ -58,7 +58,7 @@ HTML_TEMPLATE_DAY_TITLE = '<h1>${day} ${date}</h1>'
 HTML_TEMPLATE_CALENDAR_ENTRY = '<li>${start} ${end} ${description}</li>'
 
 
-class HelloWorld(BASE_CLASS):
+class CalendarReader(BASE_CLASS):
 
     if __name__ == FILE_NAME: 
         def initialize(self):
@@ -66,15 +66,12 @@ class HelloWorld(BASE_CLASS):
             self.run_hourly(self.run_task, None)
     else:
         def initialize(self):
-            # self.log(f"Hello from local {__name__}")
             self.run_task(None)
 
 
     def run_task(self, kwargs):
         d = self.read_calendar()
         self.write_html(d)
-        # self.log("I wrote some HTML!")
-
 
     def read_calendar(self) -> defaultdict:
         """Shows basic usage of the Google Calendar API.
@@ -109,10 +106,6 @@ class HelloWorld(BASE_CLASS):
                                                   orderBy='startTime').execute()
             events = events_result.get('items', [])
         
-            # if not events:
-            #     print('No upcoming events found.')
-            #     return
-
             # Build a dictionary of lists of events, keyed on start date, sorted by start time
             devents = defaultdict(list)
             for event in events:
@@ -120,7 +113,8 @@ class HelloWorld(BASE_CLASS):
                 event['start_date'] = re.match("^(\d+\-\d+\-\d+)", start).groups()[0] # Extract start date
                 devents[event['start_date']].append(event)
         except HttpError as error:
-            print('An error occurred: %s' % error)
+            self.log(f"An error occurred reading calendar {error}")
+            print('An error occurred reading calendar: %s' % error)
 
         return devents
 
@@ -155,7 +149,6 @@ class HelloWorld(BASE_CLASS):
     #     d = read_calendar()
     #     write_html(d)
 
-
 if __name__ == '__main__':
-    c = HelloWorld()
+    c = CalendarReader()
     c.initialize()
