@@ -31,6 +31,7 @@ calendar_reader:
   module: calendar_reader
   class: CalendarReader
 ```
+* Move or merge the contents of `requirements.txt` into the folder `/config/appdaemon`. This will install dependencies for your script.
 * Move the files `calendar_reader.py`, `my_secrets.py`, `credentials.json`, `token.json` into the `/config/appdaemon/apps/apps.yaml` folder.
 * Edit `my_secrets.py` to contain the correct CALENDAR_ID. See `fake_secrets.py` for a template what this should look like.
 * Create a folder `/config/www/calendar`. Note that this is actually the `/local/calendar`folder when viewed from the HomeAssistant Dashboard configuration
