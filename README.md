@@ -41,7 +41,7 @@ calendar_reader:
 type: iframe
 url: /local/my_location/index6.html
 aspect_ratio: 100%
-```
+````
 
 * At this point everything should work. It might take a minute or two for everything to sync, but sync it should.
 
