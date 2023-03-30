@@ -34,6 +34,8 @@ calendar_reader:
 * Edit `my_secrets.py` to contain the correct CALENDAR_ID. See `fake_secrets.py` for a template what this should look like.
 * Create a folder `/config/www/calendar`
 * At this point the AppDaeomon script should run - monitor this in [AppDaemon's console](http://localhost:5050/aui/index.html#/state?tab=apps)
+
+## HomeAssistant Configuration
 * In HomeAssistant dashboard add a Web Page card and add the following code
 ````
 type: iframe
