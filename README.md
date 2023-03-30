@@ -33,7 +33,7 @@ calendar_reader:
 ```
 * Move the files `calendar_reader.py`, `my_secrets.py`, `credentials.json`, `token.json` into the `/config/appdaemon/apps/apps.yaml` folder.
 * Edit `my_secrets.py` to contain the correct CALENDAR_ID. See `fake_secrets.py` for a template what this should look like.
-* Create a folder `/config/www/calendar`
+* Create a folder `/config/www/calendar`. Note that this is actually the `/local/calendar`folder when viewed from the HomeAssistant Dashboard configuration
 * At this point the AppDaeomon script should run - monitor this in [AppDaemon's console](http://localhost:5050/aui/index.html#/state?tab=apps)
 * AppDaemon triggers the script automatically if it is changed - so trigger this by making a minor edit and saving the file
 
@@ -41,7 +41,7 @@ calendar_reader:
 * In HomeAssistant dashboard add a Web Page card and add the following code
 ````
 type: iframe
-url: /local/my_location/index6.html
+url: /local/calendar/index6.html
 aspect_ratio: 100%
 ````
 
