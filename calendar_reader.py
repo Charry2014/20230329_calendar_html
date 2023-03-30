@@ -28,7 +28,7 @@ SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 if __name__ == FILE_NAME: 
     TOKEN_JSON = '/config/appdaemon/apps/token.json'
     CREDENTIALS_JSON = '/config/appdaemon/apps/credentials.json'    
-    INDEX_HTML = '/config/appdaemon/www/index.html'
+    INDEX_HTML = '/www/index6.html'
     BASE_CLASS = hass.Hass
 else:
     # Local debugging
@@ -37,10 +37,14 @@ else:
     INDEX_HTML = 'test/index.html'
     BASE_CLASS = object
 
-HTML_TEMPLATE_START = '''<html>
-<head>
-<title>Lesmartins Calendar</title>
-</head> 
+HTML_TEMPLATE_START = '''<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="refresh" content="600">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <title>Lesmartins Calendar</title>
+  </head>
 <body>
 '''
 HTML_TEMPLATE_END = '''
