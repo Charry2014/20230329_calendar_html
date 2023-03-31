@@ -63,7 +63,7 @@ class CalendarReader(BASE_CLASS):
     if __name__ == FILE_NAME: 
         def initialize(self):
             self.log(f"Hello from AppDaemon {__name__}")
-            self.run_hourly(self.run_task, None)
+            self.run_every(self.run_task, "now", 15 * 60)
     else:
         def initialize(self):
             self.run_task(None)
