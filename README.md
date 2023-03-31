@@ -20,6 +20,10 @@ The code to read the calendar is taken from Google's [developer sample code](htt
 
 Follow [Google's developer documentation](https://developers.google.com/calendar/api/quickstart/python) to get set up. You need to enable the API and get access to your calendar. This will create the `credentials.json` and a `token.json` files. I have not found a way to create these in HA so I did this on the desktop and copied them over.
 
+## Secrets - yours and mine
+
+The `fake_secrets.py` file has an example of what secrets the script needs to be supplied - the `CALENDAR_ID` which you will get from Google specific for your calendar.
+
 ## AppDaemon Installation
 
 The docs for AppDaemon in HomeAssistant contain a lot of words, but not much detail how to actually get a script set up and running. Here we go.
