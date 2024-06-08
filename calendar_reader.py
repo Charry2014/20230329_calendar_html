@@ -25,11 +25,14 @@ SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 
 # Some platform abstraction
 # this is on the AppDaemon target
+# /addon_configs/a0d7b954_appdaemon maps to /config
 if __name__ == FILE_NAME: 
-    TOKEN_JSON = '/config/appdaemon/apps/token.json'
-    CREDENTIALS_JSON = '/config/appdaemon/apps/credentials.json'    
-    INDEX_HTML = '/www/index6.html'
+    TOKEN_JSON = '/config/apps/token.json'
+    CREDENTIALS_JSON = '/config/apps/credentials.json'    
+    INDEX_HTML = '/homeassistant/www/calendar/index6.html'
     BASE_CLASS = hass.Hass
+
+    # self.log(f"ls {os.listdir('/homeassistant/www/calendar')}")
 else:
     # Local debugging
     TOKEN_JSON = 'data/token.json'
@@ -41,8 +44,8 @@ HTML_TEMPLATE_START = '''<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="refresh" content="600">
     <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="refresh" content="600">    
     <title>Lesmartins Calendar</title>
   </head>
 <body>
@@ -57,7 +60,6 @@ HTML_TEMPLATE_DAY_TITLE = '<h1>${day} ${date}</h1>'
 # Calendar line entry
 HTML_TEMPLATE_CALENDAR_ENTRY = '<li>${start} ${end} ${description}</li>'
 
-
 class CalendarReader(BASE_CLASS):
 
     if __name__ == FILE_NAME: 
@@ -68,8 +70,8 @@ class CalendarReader(BASE_CLASS):
         def initialize(self):
             self.run_task(None)
 
-
     def run_task(self, kwargs):
+        self.log(f"Reading calendar {__name__}")
         d = self.read_calendar()
         self.write_html(d)
 
@@ -78,13 +80,21 @@ class CalendarReader(BASE_CLASS):
         Prints the start and name of the next 10 events on the user's calendar.
         """
         creds = None
+
+        for p in [CREDENTIALS_JSON,TOKEN_JSON]:
+            if os.path.exists(p):
+                self.log(f"File {p} exists OK")
+            else:
+                self.log(f"ERROR: {p} cannot be opened for reading")
+
         # The file token.json stores the user's access and refresh tokens, and is
         # created automatically when the authorization flow completes for the first
         # time.
-        if os.path.exists(TOKEN_JSON):
-            creds = Credentials.from_authorized_user_file(TOKEN_JSON, SCOPES)
+        creds = Credentials.from_authorized_user_file(TOKEN_JSON, SCOPES)
+
         # If there are no (valid) credentials available, let the user log in.
         if not creds or not creds.valid:
+            self.log(f"WARNING - Google Calendar credentials in {CREDENTIALS_JSON} are invalid")
             if creds and creds.expired and creds.refresh_token:
                 creds.refresh(Request())
             else:
@@ -94,6 +104,7 @@ class CalendarReader(BASE_CLASS):
             # Save the credentials for the next run
             with open(TOKEN_JSON, 'w') as token:
                 token.write(creds.to_json())
+
 
         try:
             service = build('calendar', 'v3', credentials=creds)
@@ -105,7 +116,7 @@ class CalendarReader(BASE_CLASS):
                                                   maxResults=20, singleEvents=True,
                                                   orderBy='startTime').execute()
             events = events_result.get('items', [])
-        
+
             # Build a dictionary of lists of events, keyed on start date, sorted by start time
             devents = defaultdict(list)
             for event in events:
@@ -115,11 +126,11 @@ class CalendarReader(BASE_CLASS):
         except HttpError as error:
             self.log(f"An error occurred reading calendar {error}")
             print('An error occurred reading calendar: %s' % error)
-
         return devents
 
 
     def write_html(self, devents: defaultdict):
+        self.log(f"Writing {INDEX_HTML}")
         values = {}
         with open(INDEX_HTML, 'w') as f:
             f.write(HTML_TEMPLATE_START)
@@ -144,10 +155,6 @@ class CalendarReader(BASE_CLASS):
                 f.write('</ul>')
             f.write(HTML_TEMPLATE_END)
 
-
-    # def main():
-    #     d = read_calendar()
-    #     write_html(d)
 
 if __name__ == '__main__':
     c = CalendarReader()
